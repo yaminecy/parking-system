@@ -19,6 +19,8 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+
+
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
         try {
@@ -55,7 +57,7 @@ public class TicketDAO {
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setId(rs.getInt(2));
                 ticket.setVehicleRegNumber(vehicleRegNumber);
-                ticket.setPrice(rs.getDouble(3));
+                ticket.setPrice(rs.getFloat(3));
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
             }
@@ -86,9 +88,8 @@ public class TicketDAO {
         }
         return false;
     }
-            //
 
-        public boolean RecurentCustomer(Ticket ticket) {
+        public boolean isRecurrentCustomer(Ticket ticket) {
             Connection con = null;
             PreparedStatement ps = null;
             ResultSet res = null;
@@ -99,7 +100,7 @@ public class TicketDAO {
                 res = ps.executeQuery();
                 res.next();
                 int count = res.getInt(1);
-                return count > 1 ? true:false;
+                return count > 1;
 
             } catch (Exception ex) {
                 logger.error("Error fetching next available slot", ex);
